@@ -1,12 +1,12 @@
 
-# CYBER GATES (R) Information Systems Security Assessment library  inspired by [OWASP risk rating methodology](https://www.owasp.org/index.php/OWASP_Risk_Rating_Methodology)
+# CYBER GATES ® Information Systems Security Assessment library  inspired by [OWASP risk rating methodology](https://www.owasp.org/index.php/OWASP_Risk_Rating_Methodology)
 
 Introduction
 ------------
 
-Information Security Security Assessment library is a collection of methods used to evaluate risk in your Information Systems based on vulnerabilities and previous incidents.
+Information Systems Security Assessment library is a collection of methods used to evaluate risk in your Information Systems based on existing vulnerabilities and previous incidents.
 
-Initially this library was designed for a [professional cloud-based security solution](https://onlineservices.cybergates.org/en/websecurity/) which allows you to determine the importance of potential risks to your online business. Please feel free to use it in your projects.
+Initially this library was designed for the [professional cloud-based security solution](https://onlineservices.cybergates.org/en/websecurity/) which allows you to determine the importance of potential risks to your online business. Please feel free to use this library in your projects and/or extend its functionality by creating new pull requests on Github.
 
 More information about [CYBER GATES ® Web Application Compliance & Risk Management](https://onlineservices.cybergates.org/en/websecurity/) solution may be found here: https://news.cybergates.org/en/articles/how-secure-is-your-business.
 
@@ -76,7 +76,6 @@ echo 'Incident risk level is '. $incident->getSeverityLevel()."\r\n";
 If you change the status of a security event, then the risk severity level will be changed accordingly.
 ```php
 $incident->setDetails([
-    'date reported' => 1515890440, // 2018-01-14T00:40:40+00:00
     'status' => CompromiseIndicator::STATUS_RESOLVED
     ]);
 ```
@@ -85,7 +84,7 @@ Using risk manager for estimating the overall risk.
 
 (see `RiskManager.php`)
 
-Risk management helps you to identify and address the risks facing your business
+Risk management helps you identify and address the risks facing your business
 and in doing so increase the likelihood of successfully achieving your businesses objectives.
 ```php
 use CYBERGATES\Assessment\Risk\Impact\Technical as TechnicalImpact;
@@ -231,9 +230,10 @@ Using risk scoring system
 
 (see `RiskScores.php`)
 
-The risk scoring system is easy to use. You can get risk severity level even by providing the timestamp when incident reported.
+The risk scoring system is easy to use. You can get risk severity level
+even by providing the the date an incident occurred.
   ```php
-  use CYBERGATES\Assessment\Risk\Severity\Level as RiskLevel;
+use CYBERGATES\Assessment\Risk\Severity\Level as RiskLevel;
 use CYBERGATES\Assessment\Risk\Severity\Score as RiskScore;
 
 // This path needs to be configured properly
@@ -267,11 +267,11 @@ Contributing
 ---------------
 
 If you want to extend functionality or
-correct a bug, fill free to create a new pull request on Github's
+correct a bug, feel free to create a new pull request on Github's
 repository https://github.com/CYBERGATES/Assessment
 
 Credits
 -------
 
-Suren Gevorgyan <suren.gevorgyan@cybergates.org>
-Edgar Chraghyan <edgar@it-universalzone.com>
+* Suren Gevorgyan <suren.gevorgyan@cybergates.org>
+* Edgar Chraghyan <edgar@it-universalzone.com>
