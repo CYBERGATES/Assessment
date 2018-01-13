@@ -1,0 +1,25 @@
+{
+  "name": "cybergates/assessment",
+  "type": "library",
+  "description": "Information Systems Security Assessment library.",
+  "keywords": ["cyber", "information", "system", "security", "assessment", "web", "application", "vulnerability", "incident", "management", "risk", "php"],
+  "homepage": "https://www.cybergates.org",
+  "author": "CYBER GATES LLC",
+  "license": "BSD-3-Clause",
+  "authors": [
+        {
+            "name": "Samvel Gevorgyan",
+            "email": "samvel.gevorgyan@cybergates.org",
+            "homepage": "https://www.cybergates.org",
+            "role": "Developer"
+        }
+    ],
+  "require": {
+        "php": ">=5.4.0"
+    },
+  "autoload": {
+        "psr-4": {
+            "CYBERGATES\\Assessment\\": "src/"
+        }
+    }
+}
