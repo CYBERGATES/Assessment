@@ -5,7 +5,7 @@
  *
  * @author Samvel Gevorgyan (http://twitter.com/SamvelG)
  * @copyright (c) 2018 CYBER GATES (http://www.cybergates.org)
- * @version 1.0, 15.01.18
+ * @version 1.0.1, 17.01.18
  */
 
 /**
@@ -38,7 +38,11 @@ class Manager
 	/**
      * Initializes the Constructor
      */
-    public function __construct() {}
+    public function __construct()
+    {
+        $this->severity['level'] = RiskLevel::LEVEL_NONE;
+        $this->severity['score'] = 0;
+    }
 
 	/**
      * Sets the indicators.
@@ -106,13 +110,14 @@ class Manager
                 // Moves to the next indicator
                 next($this->indicators);
             }
-        }
-        // Orders severities by its levels
-        $severity_levels = RiskLevel::sort($severity_levels);
-        $this->severity['level'] = reset($severity_levels);
-        // Orders severities by its scores
-        arsort($severity_scores);
-        $this->severity['score'] = reset($severity_scores);        
+            
+            // Orders severities by its levels
+            $severity_levels = RiskLevel::sort($severity_levels);
+            $this->severity['level'] = reset($severity_levels);
+            // Orders severities by its scores
+            arsort($severity_scores);
+            $this->severity['score'] = reset($severity_scores); 
+        }               
         
         return $this;
     }
