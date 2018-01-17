@@ -38,7 +38,7 @@ class Compromise implements IndicatorInterface
     * Indicator priority
     * @var string
     */
-    protected $priority = 'none';
+    protected $priority = RiskLevel::LEVEL_NONE;
     
     /**
     * Indicaror risk severity
@@ -49,7 +49,10 @@ class Compromise implements IndicatorInterface
     /**
      * Initializes the Constructor
      */
-    public function __construct() {}
+    public function __construct()
+    {
+        $this->reset();
+    }
 
     /**
      * Sets the indicaror detail.
@@ -117,7 +120,7 @@ class Compromise implements IndicatorInterface
      */
     public function setTechnicalImpact(TechnicalImpact $impact)
     {
-        $this->impact['technical'] = $impact->toArray();
+        $this->impact['technical'] = $impact;
         
         return $this;
     }
@@ -128,7 +131,7 @@ class Compromise implements IndicatorInterface
      * @return     array             The technical impact.
      */
     public function getTechnicalImpact()
-    {        
+    {
         if (!empty($this->impact['technical'])) return $this->impact['technical'];
         
         return false;
@@ -143,7 +146,7 @@ class Compromise implements IndicatorInterface
      */
     public function setBusinessImpact(BusinessImpact $impact)
     {
-        $this->impact['business'] = $impact->toArray();
+        $this->impact['business'] = $impact;
         
         return $this;
     }
@@ -177,8 +180,8 @@ class Compromise implements IndicatorInterface
      */
     public function getOverallImpact()
     {
-        return max(array_sum($this->impact['technical'])/count($this->impact['technical']),
-                   array_sum($this->impact['business'])/count($this->impact['business']), 0);
+        return max($this->impact['technical']->sum()/count($this->impact['technical']),
+                   $this->impact['business']->sum()/count($this->impact['business']), 0);
     }
 
     /**
@@ -247,6 +250,29 @@ class Compromise implements IndicatorInterface
     public function evaluate()
     {
         $this->evaluateOverallSeverity();
+
+        return $this;
+    }
+    
+    /**
+     * Resets the object properties.
+     *
+     * @return     self  The object.
+     */
+    public function reset()
+    {
+        $this->details = [
+            'date reported' => time(),
+            'status' =>  self::STATUS_OPEN
+        ];
+        $this->impact = [
+            'technical' => new TechnicalImpact(),
+            'business' => new BusinessImpact()
+        ];
+        $this->priority = RiskLevel::LEVEL_NONE;
+        $this->severity['level'] = RiskLevel::LEVEL_NONE;
+        $this->severity['score'] = 0;
+        
 
         return $this;
     }

@@ -39,7 +39,10 @@ class Exposure implements IndicatorInterface
     /**
      * Initializes the Constructor
      */
-    public function __construct() {}
+    public function __construct()
+    {
+        $this->reset();
+    }
 
     /**
      * Sets the risk likelihood factors.
@@ -91,7 +94,7 @@ class Exposure implements IndicatorInterface
      */
     public function setTechnicalImpact(TechnicalImpact $impact)
     {
-        $this->impact['technical'] = $impact->toArray();
+        $this->impact['technical'] = $impact;
         
         return $this;
     }
@@ -117,7 +120,7 @@ class Exposure implements IndicatorInterface
      */
     public function setBusinessImpact(BusinessImpact $impact)
     {
-        $this->impact['business'] = $impact->toArray();
+        $this->impact['business'] = $impact;
         
         return $this;
     }
@@ -151,8 +154,8 @@ class Exposure implements IndicatorInterface
      */
     public function getOverallImpact()
     {
-        return max(array_sum($this->impact['technical'])/count($this->impact['technical']),
-                   array_sum($this->impact['business'])/count($this->impact['business']), 0);
+        return max($this->impact['technical']->sum()/count($this->impact['technical']),
+                   $this->impact['business']->sum()/count($this->impact['business']), 0);
     }
 
     /**
@@ -216,6 +219,28 @@ class Exposure implements IndicatorInterface
     public function evaluate()
     {
         $this->evaluateOverallSeverity();
+
+        return $this;
+    }
+    
+    /**
+     * Resets the object properties.
+     *
+     * @return     self  The object.
+     */
+    public function reset()
+    {
+        $this->likelihood = [
+            'threat agent factors' => new ThreatAgentFactor(),
+            'vulnerability factors' =>  new VulnerabilityFactor()
+        ];
+        $this->impact = [
+            'technical' => new TechnicalImpact(),
+            'business' =>  new BusinessImpact()
+        ];
+        $this->severity['level'] = RiskLevel::LEVEL_NONE;
+        $this->severity['score'] = 0;
+        
 
         return $this;
     }
