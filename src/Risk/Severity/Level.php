@@ -81,18 +81,18 @@ class Level
      */
     public static function getByDate($timestamp = null)
     {
-        if (null === $date) $date = time();
+        if (null === $timestamp) $timestamp = time();
         
         // Converts texts to unix timestamps if not numeric 
         if (strtotime(date('d-m-Y H:i:s', $timestamp)) === (int)$timestamp)
-            $date = $timestamp;
+            $timestamp = $timestamp;
         else
-            return strtotime($timestamp);
+            $timestamp = strtotime($timestamp);
 
         // Gets the current timestamp
         $now = time();
         // Calculates the difference
-        $difference = abs($now - $date);
+        $difference = abs($now - $timestamp);
         // Converts seconds into days
         $days = floor($difference / (60*60*24));
         
