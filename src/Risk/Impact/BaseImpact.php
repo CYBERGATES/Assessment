@@ -8,7 +8,9 @@ namespace CYBERGATES\Assessment\Risk\Impact;
 /**
  * Base class for risk impacts
  */
-class BaseImpact implements \ArrayAccess, \Countable
+class BaseImpact implements
+    \ArrayAccess,
+    \Countable
 {
     protected $impacts = array();
 
@@ -19,7 +21,7 @@ class BaseImpact implements \ArrayAccess, \Countable
      * 
      * @return      bool The result.
      */
-    public function offsetExists ($offset)
+    public function offsetExists($offset)
     {
         return array_key_exists($offset, $this->impacts);
     }
@@ -31,7 +33,7 @@ class BaseImpact implements \ArrayAccess, \Countable
      * 
      * @return      integer The impact value.
      */
-    public function offsetGet ($offset)
+    public function offsetGet($offset)
     {
         return $this->impacts[$offset];
     }
@@ -44,7 +46,7 @@ class BaseImpact implements \ArrayAccess, \Countable
      * 
      * @return void
      */
-    public function offsetSet ($offset, $value)
+    public function offsetSet($offset, $value)
     {
         $this->impacts[$offset] = $value;
     }
@@ -56,7 +58,7 @@ class BaseImpact implements \ArrayAccess, \Countable
      * 
      * @return void
      */
-    public function offsetUnset ($offset)
+    public function offsetUnset($offset)
     {
         unset($this->impacts[$offset]);
     }
@@ -79,5 +81,15 @@ class BaseImpact implements \ArrayAccess, \Countable
     public function sum()
     {
         return array_sum($this->impacts);
+    }
+
+    /**
+     * Returns an array representation of the object.
+     *
+     * @return     array  Array representation of the object.
+     */
+    public function toArray()
+    {
+        return $this->impacts;
     }
 }

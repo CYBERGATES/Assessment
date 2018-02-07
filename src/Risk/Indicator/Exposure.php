@@ -55,8 +55,8 @@ class Exposure implements IndicatorInterface
     public function setLikelihood(ThreatAgentFactor $threatAgentFactor, VulnerabilityFactor $vulnerabilityFactor)
     {
         $this->likelihood = [
-          'threat agent factors' => $threatAgentFactor,
-          'vulnerability factors' => $vulnerabilityFactor
+          'threat agent factors'  => $threatAgentFactor->toArray(),
+          'vulnerability factors' => $vulnerabilityFactor->toArray()
         ];
         
         return $this;
@@ -81,8 +81,8 @@ class Exposure implements IndicatorInterface
      */
     public function getOverallLikelihood()
     {
-        return max($this->likelihood['threat agent factors']->sum()/count($this->likelihood['threat agent factors']),
-                   $this->likelihood['vulnerability factors']->sum()/count($this->likelihood['vulnerability factors']), 0);
+        return max(array_sum($this->likelihood['threat agent factors'])/count($this->likelihood['threat agent factors']),
+                   array_sum($this->likelihood['vulnerability factors'])/count($this->likelihood['vulnerability factors']), 0);
     }
 
     /**
@@ -94,7 +94,7 @@ class Exposure implements IndicatorInterface
      */
     public function setTechnicalImpact(TechnicalImpact $impact)
     {
-        $this->impact['technical'] = $impact;
+        $this->impact['technical'] = $impact->toArray();
         
         return $this;
     }
@@ -120,7 +120,7 @@ class Exposure implements IndicatorInterface
      */
     public function setBusinessImpact(BusinessImpact $impact)
     {
-        $this->impact['business'] = $impact;
+        $this->impact['business'] = $impact->toArray();
         
         return $this;
     }
@@ -154,8 +154,8 @@ class Exposure implements IndicatorInterface
      */
     public function getOverallImpact()
     {
-        return max($this->impact['technical']->sum()/count($this->impact['technical']),
-                   $this->impact['business']->sum()/count($this->impact['business']), 0);
+        return max(array_sum($this->impact['technical'])/count($this->impact['technical']),
+                   array_sum($this->impact['business'])/count($this->impact['business']), 0);
     }
 
     /**
@@ -230,14 +230,12 @@ class Exposure implements IndicatorInterface
      */
     public function reset()
     {
-        $this->likelihood = [
-            'threat agent factors' => new ThreatAgentFactor(),
-            'vulnerability factors' =>  new VulnerabilityFactor()
-        ];
-        $this->impact = [
-            'technical' => new TechnicalImpact(),
-            'business' =>  new BusinessImpact()
-        ];
+        $this->setLikelihood(
+            new ThreatAgentFactor(),
+            new VulnerabilityFactor()
+        );
+        $this->setTechnicalImpact(new TechnicalImpact());
+        $this->setBusinessImpact(new BusinessImpact());
         $this->severity['level'] = RiskLevel::LEVEL_NONE;
         $this->severity['score'] = 0;
         

@@ -12,7 +12,7 @@ use CYBERGATES\Assessment\Risk\Impact\BaseImpact;
  */
 class Business extends BaseImpact
 {
-    protected $impacts=array();
+    protected $impacts = array();
     
     /**
      * Initializes the Constructor
@@ -51,9 +51,9 @@ class Business extends BaseImpact
      */
     public function __construct($financial = 0, $reputation = 0, $noncompliance = 0, $privacy = 0)
     {
-        $this->impacts['financial damage'] = $financial;
+        $this->impacts['financial damage']  = $financial;
         $this->impacts['reputation damage'] = $reputation;
-        $this->impacts['non-compliance'] = $noncompliance;
+        $this->impacts['non-compliance']    = $noncompliance;
         $this->impacts['privacy violation'] = $privacy;
     }
 }

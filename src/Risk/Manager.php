@@ -5,7 +5,7 @@
  *
  * @author Samvel Gevorgyan (http://twitter.com/SamvelG)
  * @copyright (c) 2018 CYBER GATES (http://www.cybergates.org)
- * @version 1.0.1, 17.01.18
+ * @version 1.1.0, 07.02.18
  */
 
 /**
@@ -22,12 +22,17 @@ use CYBERGATES\Assessment\Risk\Severity\Score as RiskScore;
  */
 class Manager
 {
-    
     /**
     * Collection of risk indicators
     * @var array
     */
     protected $indicators = [];
+
+    /**
+    * Risk impacts of all indicators
+    * @var array
+    */
+    protected $impacts = [];
 
     /**
     * Overall risk severity
@@ -40,8 +45,7 @@ class Manager
      */
     public function __construct()
     {
-        $this->severity['level'] = RiskLevel::LEVEL_NONE;
-        $this->severity['score'] = 0;
+        $this->reset();
     }
 
 	/**
@@ -92,18 +96,31 @@ class Manager
     }
 
     /**
+     * Gets the impacts.
+     *
+     * @return     array  The impacts.
+     */
+    public function getImpacts()
+    {
+        return $this->impacts;
+    }
+
+    /**
      * Evaluates the overall risk severity
      *
      * @return     self  The object.
      */
     public function evaluateOverallRisk()
     {
+        // Holds information about risk impacts of all indicators
+        $impacts = [];
         // Holds information about severity levels of of all indicators
         $severity_levels = [];
         // Holds information about severity scores of of all indicators
         $severity_scores = [];
         if (!empty($this->indicators)) {
             while ($indicator = current($this->indicators)) {
+                $impacts[] = $indicator->getImpacts();
                 $severity_levels[] = $indicator->getSeverityLevel();
                 $severity_scores[] = $indicator->getSeverityScore();
 
@@ -117,7 +134,7 @@ class Manager
             // Orders severities by its scores
             arsort($severity_scores);
             $this->severity['score'] = reset($severity_scores); 
-        }               
+        }
         
         return $this;
     }
@@ -166,6 +183,22 @@ class Manager
         if (isset($this->severity['score'])) return $this->severity['score'];
 
         return false;
+    }
+
+    /**
+     * Resets the object properties.
+     *
+     * @return     self  The object.
+     */
+    public function reset()
+    {
+        $this->indicators = [];
+        $this->impacts    = [];
+        $this->severity['level'] = RiskLevel::LEVEL_NONE;
+        $this->severity['score'] = 0;
+        
+
+        return $this;
     }
     
     /**

@@ -120,7 +120,7 @@ class Compromise implements IndicatorInterface
      */
     public function setTechnicalImpact(TechnicalImpact $impact)
     {
-        $this->impact['technical'] = $impact;
+        $this->impact['technical'] = $impact->toArray();
         
         return $this;
     }
@@ -146,7 +146,7 @@ class Compromise implements IndicatorInterface
      */
     public function setBusinessImpact(BusinessImpact $impact)
     {
-        $this->impact['business'] = $impact;
+        $this->impact['business'] = $impact->toArray();
         
         return $this;
     }
@@ -180,8 +180,8 @@ class Compromise implements IndicatorInterface
      */
     public function getOverallImpact()
     {
-        return max($this->impact['technical']->sum()/count($this->impact['technical']),
-                   $this->impact['business']->sum()/count($this->impact['business']), 0);
+        return max(array_sum($this->impact['technical'])/count($this->impact['technical']),
+                   array_sum($this->impact['business'])/count($this->impact['business']), 0);
     }
 
     /**
@@ -261,14 +261,12 @@ class Compromise implements IndicatorInterface
      */
     public function reset()
     {
-        $this->details = [
+        $this->setDetails([
             'date reported' => time(),
-            'status' =>  self::STATUS_OPEN
-        ];
-        $this->impact = [
-            'technical' => new TechnicalImpact(),
-            'business' => new BusinessImpact()
-        ];
+            'status'        => self::STATUS_OPEN
+        ]);
+        $this->setTechnicalImpact(new TechnicalImpact());
+        $this->setBusinessImpact(new BusinessImpact());
         $this->priority = RiskLevel::LEVEL_NONE;
         $this->severity['level'] = RiskLevel::LEVEL_NONE;
         $this->severity['score'] = 0;

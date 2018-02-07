@@ -12,7 +12,7 @@ use CYBERGATES\Assessment\Risk\Factor\BaseFactor;
  */
 class ThreatAgent extends BaseFactor
 {
-    protected $factors=array();
+    protected $factors = array();
     
     /**
      * Initializes the Constructor
@@ -53,8 +53,8 @@ class ThreatAgent extends BaseFactor
     public function __construct($skills = 0, $motive = 0, $opportunity = 0, $size = 0)
     {
         $this->factors['skill level'] = $skills;
-        $this->factors['motive'] = $motive;
+        $this->factors['motive']      = $motive;
         $this->factors['opportunity'] = $opportunity;
-        $this->factors['size'] = $size;
+        $this->factors['size']        = $size;
     }
 }

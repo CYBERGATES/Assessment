@@ -12,7 +12,7 @@ use CYBERGATES\Assessment\Risk\Impact\BaseImpact;
  */
 class Technical extends BaseImpact
 {
-    protected $impacts=array();
+    protected $impacts = array();
     
     /**
      * Initializes the Constructor
@@ -55,8 +55,8 @@ class Technical extends BaseImpact
     public function __construct($confidentiality = 0, $integrity = 0, $availability = 0, $accountability = 0)
     {
         $this->impacts['loss of confidentiality'] = $confidentiality;
-        $this->impacts['loss of integrity'] = $integrity;
-        $this->impacts['loss of availability'] = $availability;
-        $this->impacts['loss of accountability'] = $accountability;
+        $this->impacts['loss of integrity']       = $integrity;
+        $this->impacts['loss of availability']    = $availability;
+        $this->impacts['loss of accountability']  = $accountability;
     }
 }
